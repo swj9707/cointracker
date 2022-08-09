@@ -27,7 +27,6 @@ const Coin = styled.li`
     align-items: center;
     padding: 20px;
     transition: color 0.2s ease-in;
-    display: block;
   }
   &:hover {
     a {
@@ -91,7 +90,7 @@ function Coins() {
                   state: { name: coin.name },
                 }}
               >
-                <Img src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
+                <Img src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
                 {coin.name} &rarr;
               </Link>
             </Coin>
