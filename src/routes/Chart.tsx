@@ -18,7 +18,9 @@ interface ChartProps {
 }
 
 function Chart({ coinId }: ChartProps) {
-  const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () => fetchCoinHistory(coinId));
+  const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () => fetchCoinHistory(coinId), {
+    refetchInterval: 10000,
+  });
   return (
     <div>
       {isLoading || !data ? (
@@ -66,7 +68,7 @@ function Chart({ coinId }: ChartProps) {
             colors: ["#0fbcf9"],
             tooltip: {
               y: {
-                formatter: (value) => `$${value.toFixed(2)}`,
+                formatter: (value: number) => `$${value.toFixed(2)}`,
               },
             },
           }}
