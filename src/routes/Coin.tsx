@@ -31,6 +31,13 @@ const Header = styled.header`
   align-items: center;
 `;
 
+const BackButton = styled.div`
+  position: fixed;
+  font-size: 30px;
+  left: 20px;
+  color: ${(props) => props.theme.accentColor};
+`;
+
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
@@ -157,6 +164,9 @@ function Coin() {
       </Helmet>
       <Header>
         <Title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</Title>
+        <Link to={"/"}>
+          <BackButton> ← </BackButton>
+        </Link>
       </Header>
       {loading ? (
         <Loader>Loading....</Loader>
