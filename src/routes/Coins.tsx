@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
+import { useRecoilState } from "recoil";
+import { isDarkAtom } from "../atom";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -37,6 +39,21 @@ const Coin = styled.li`
   }
 `;
 
+const DarkMode = styled.div`
+  display: flex;
+  align-items: center;
+  position: fixed;
+  right: 30px;
+  color : ${(props) => props.theme.textColor}
+  font-size : 20px;
+  border-radius: 15px;
+  padding : 20px;
+
+  &:hover{
+    color : ${(props) => props.theme.borderColor};
+  }
+`;
+
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
@@ -65,14 +82,16 @@ interface ICoin {
 
 function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
+  const [isDarkMode, setIsDark] = useRecoilState(isDarkAtom);
 
   return (
     <Container>
       <Helmet>
-        <title>코인</title>
+        <title>Coin Tracker</title>
       </Helmet>
       <Header>
-        <Title>코인</Title>
+        <Title>Coin Tracker</Title>
+        <DarkMode onClick={() => setIsDark((prev) => !prev)}> {isDarkMode ? "LightMode" : "DarkMode"}</DarkMode>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
