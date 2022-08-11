@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
-
+import { isDarkAtom } from "../atom";
 interface IHistorical {
   time_open: string;
   time_close: string;
