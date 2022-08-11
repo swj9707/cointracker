@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
 import { isDarkAtom } from "../atom";
+import { useRecoilValue } from "recoil";
+import { Helmet } from "react-helmet";
 interface IHistorical {
   time_open: string;
   time_close: string;
@@ -21,9 +23,14 @@ function Chart({ coinId }: ChartProps) {
   const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () => fetchCoinHistory(coinId), {
     refetchInterval: 10000,
   });
-  console.log(data);
+
+  const isDark = useRecoilValue(isDarkAtom);
+
   return (
     <div>
+      <Helmet>
+        <title>{`${coinId} Chart`}</title>
+      </Helmet>
       {isLoading || !data ? (
         "Loading chart..."
       ) : (
@@ -38,12 +45,11 @@ function Chart({ coinId }: ChartProps) {
           ]}
           options={{
             theme: {
-              mode: "dark",
+              mode: isDark ? "light" : "dark",
             },
             chart: {
-              type: "candlestick",
-              height: 350,
-              width: 500,
+              height: 600,
+              width: 750,
               toolbar: {
                 show: false,
               },
@@ -51,19 +57,15 @@ function Chart({ coinId }: ChartProps) {
             },
             stroke: {
               curve: "smooth",
-              width: 2,
+              width: 3,
             },
             yaxis: {
               show: false,
             },
             xaxis: {
-              type: "datetime",
-              categories: data?.map((price) => price.time_close),
-              labels: {
-                style: {
-                  colors: "#9c88ff",
-                },
-              },
+              axisBorder: { show: false },
+              axisTicks: { show: false },
+              labels: { show: false },
             },
             plotOptions: {
               candlestick: {
